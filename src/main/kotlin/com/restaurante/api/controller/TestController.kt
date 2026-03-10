@@ -1,4 +1,4 @@
-package com.restaurante.controller
+package com.restaurante.api.controller
 
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.GetMapping
