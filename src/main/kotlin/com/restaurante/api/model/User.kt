@@ -11,8 +11,8 @@ data class User(
     @Id
     val id: UUID = UUID.randomUUID(),
 
-    @Column(name = "name", nullable = false)
-    var name: String = "",
+    @Column(name = "nome", nullable = false)
+    var nome: String = "",
 
     @Column(unique = true, nullable = false)
     var email: String = "",
