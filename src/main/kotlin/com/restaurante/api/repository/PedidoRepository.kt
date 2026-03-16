@@ -1,0 +1,7 @@
+package com.restaurante.api.repository
+
+import com.restaurante.api.model.Pedido
+import org.springframework.data.jpa.repository.JpaRepository
+import java.util.*
+
+interface PedidoRepository : JpaRepository<Pedido, UUID> {}
