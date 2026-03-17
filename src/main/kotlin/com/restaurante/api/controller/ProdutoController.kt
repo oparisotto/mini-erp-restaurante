@@ -2,7 +2,6 @@ package com.restaurante.api.controller
 
 import com.restaurante.api.model.Produto
 import com.restaurante.api.service.ProdutoService
-
 import org.springframework.web.bind.annotation.*
 
 @RestController
