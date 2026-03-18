@@ -26,6 +26,7 @@ class ProdutoService(
             descricao = produto.descricao,
             preco = produto.preco,
             categoria = produto.categoria,
+            ativo = produto.ativo,
         )
 
         return produtoRepository.save(atualizado)

@@ -23,6 +23,7 @@ class CategoriaService(
 
         val atualizado = existente.copy(
             nome = categoria.nome,
+            ativo = categoria.ativo,
         )
 
         return categoriaRepository.save(atualizado)

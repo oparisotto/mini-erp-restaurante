@@ -9,14 +9,14 @@ import jakarta.persistence.*
 data class TaxaEntrega(
 
     @Id
-    val id: UUID = UUID.randomUUID(),
+    var id: UUID = UUID.randomUUID(),
 
     @Column(name = "bairro", nullable = false)
-    val bairro: String = "",
+    var bairro: String = "",
 
     @Column(name = "valor", nullable = false)
-    val valor: BigDecimal = BigDecimal.ZERO,
+    var valor: BigDecimal = BigDecimal.ZERO,
 
     @Column(name = "ativo", nullable = false)
-    val ativo: Boolean = true
+    var ativo: Boolean = true,
 )
