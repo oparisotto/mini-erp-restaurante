@@ -4,4 +4,6 @@ import com.restaurante.api.model.Produto
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface ProdutoRepository : JpaRepository<Produto, UUID>
+interface ProdutoRepository : JpaRepository<Produto, UUID>{
+    fun findByAtivoTrue(): List<Produto>
+}

@@ -10,7 +10,7 @@ class ProdutoService(
     private val produtoRepository: ProdutoRepository
 ) {
     fun listar(): List<Produto>{
-        return produtoRepository.findAll()
+        return produtoRepository.findByAtivoTrue()
     }
 
     fun salvar(produto: Produto): Produto{
@@ -25,7 +25,6 @@ class ProdutoService(
             nome = produto.nome,
             descricao = produto.descricao,
             preco = produto.preco,
-            ativo = produto.ativo,
             categoria = produto.categoria,
         )
 
