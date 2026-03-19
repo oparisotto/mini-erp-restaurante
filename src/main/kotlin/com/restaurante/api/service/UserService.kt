@@ -23,6 +23,19 @@ class UserService(
         }
     }
 
+    fun buscarPorId(id: UUID): UserResponseDTO {
+        val user = userRepository.findById(id)
+            .orElseThrow { RuntimeException("Usuario não encontrado") }
+
+        return UserResponseDTO(
+            id = user.id,
+            nome = user.nome,
+            email = user.email,
+            telefone = user.telefone,
+            ativo = user.ativo
+        )
+    }
+
     fun salvar(dto: UserRequestDTO): UserResponseDTO{
 
         val user = User(

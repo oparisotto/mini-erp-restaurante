@@ -19,6 +19,11 @@ class UsersController(
         return userService.listar()
     }
 
+    @GetMapping("/{id}")
+    fun buscarPorId(@PathVariable id: UUID): UserResponseDTO {
+        return userService.buscarPorId(id)
+    }
+
     @PostMapping
     fun criar(@RequestBody dto: UserRequestDTO): UserResponseDTO {
         return userService.salvar(dto)
