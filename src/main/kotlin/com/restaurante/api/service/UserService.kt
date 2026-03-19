@@ -1,5 +1,7 @@
 package com.restaurante.api.service
 
+import com.restaurante.api.dto.user.UserRequestDTO
+import com.restaurante.api.dto.user.UserResponseDTO
 import com.restaurante.api.model.User
 import com.restaurante.api.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -9,12 +11,37 @@ import java.util.UUID
 class UserService(
     private val userRepository: UserRepository
 ) {
-    fun listar(): List<User>{
-        return userRepository.findAll()
+    fun listar(): List<UserResponseDTO>{
+        return userRepository.findAll().map {
+            UserResponseDTO(
+                id = it.id,
+                nome = it.nome,
+                email = it.email,
+                telefone = it.telefone,
+                ativo = it.ativo,
+            )
+        }
     }
 
-    fun salvar(user: User): User {
-        return userRepository.save(user)
+    fun salvar(dto: UserRequestDTO): UserResponseDTO{
+
+        val user = User(
+            nome = dto.nome,
+            email = dto.email,
+            telefone = dto.telefone,
+            senhaHash = dto.senha,
+            ativo = true
+        )
+
+        val salvo = userRepository.save(user)
+
+        return UserResponseDTO(
+            id = salvo.id,
+            nome = salvo.nome,
+            email = salvo.email,
+            telefone = salvo.telefone,
+            ativo = salvo.ativo
+        )
     }
 
     fun atualizar(id: UUID, user: User): User {

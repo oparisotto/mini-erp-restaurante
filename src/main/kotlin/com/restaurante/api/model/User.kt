@@ -17,8 +17,8 @@ data class User(
     @Column(unique = true, nullable = false)
     var email: String = "",
 
-    @Column(name = "telefone")
-    var telefone: String? = null,
+    @Column(name = "telefone", nullable = false)
+    var telefone: String = "",
 
     @Column(name = "senha_hash", nullable = false)
     var senhaHash: String = "",
