@@ -32,9 +32,9 @@ class UsersController(
     @PutMapping("/{id}")
     fun atualizar(
         @PathVariable id: UUID,
-        @RequestBody user: User
-    ): User {
-        return userService.atualizar(id, user)
+        @RequestBody dto: UserRequestDTO
+    ): UserResponseDTO {
+        return userService.atualizar(id, dto)
     }
 
     @DeleteMapping("/{id}")

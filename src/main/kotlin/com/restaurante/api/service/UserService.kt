@@ -57,16 +57,26 @@ class UserService(
         )
     }
 
-    fun atualizar(id: UUID, user: User): User {
+    fun atualizar(id: UUID, dto: UserRequestDTO): UserResponseDTO {
         val existente = userRepository.findById(id)
             .orElseThrow { RuntimeException("Usuario não encontrado") }
 
         val atualizado = existente.copy(
-            nome = user.nome,
-            email = user.email,
-            telefone = user.telefone
+            nome = dto.nome,
+            email = dto.email,
+            telefone = dto.telefone,
+            senhaHash = dto.senha,
         )
-        return userRepository.save(atualizado)
+
+        val salvo = userRepository.save(atualizado)
+
+        return UserResponseDTO(
+            id = salvo.id,
+            nome = salvo.nome,
+            email = salvo.email,
+            telefone = salvo.telefone,
+            ativo = salvo.ativo
+        )
     }
 
     fun deletar(id: UUID) {
