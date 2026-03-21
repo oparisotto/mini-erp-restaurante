@@ -4,6 +4,7 @@ import com.restaurante.api.dto.user.UserRequestDTO
 import com.restaurante.api.dto.user.UserResponseDTO
 import com.restaurante.api.model.User
 import com.restaurante.api.repository.UserRepository
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.UUID
 
@@ -36,13 +37,15 @@ class UserService(
         )
     }
 
+    val encoder = BCryptPasswordEncoder()
+
     fun salvar(dto: UserRequestDTO): UserResponseDTO{
 
         val user = User(
             nome = dto.nome,
             email = dto.email,
             telefone = dto.telefone,
-            senhaHash = dto.senha,
+            senhaHash = encoder.encode(dto.senha),
             ativo = true
         )
 
