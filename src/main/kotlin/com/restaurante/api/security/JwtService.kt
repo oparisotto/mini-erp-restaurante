@@ -12,9 +12,10 @@ class JwtService {
 
     private val key: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)
 
-    fun gerarToken(email: String): String {
+    fun gerarToken(email: String, role: String): String {
         return Jwts.builder()
             .setSubject(email)
+            .claim("role", role)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 60))
             .signWith(key)
@@ -29,6 +30,19 @@ class JwtService {
                 .parseClaimsJws(token)
 
             claims.body.subject
+        } catch (e: Exception){
+            null
+        }
+    }
+
+    fun getRole(token: String): String? {
+        return try {
+            val claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+
+            claims.body["role"] as String
         } catch (e: Exception){
             null
         }

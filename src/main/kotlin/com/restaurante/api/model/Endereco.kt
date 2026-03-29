@@ -1,5 +1,6 @@
 package com.restaurante.api.model
 
+import com.restaurante.api.model.user.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.*

@@ -2,7 +2,6 @@ package com.restaurante.api.controller
 
 import com.restaurante.api.dto.user.UserRequestDTO
 import com.restaurante.api.dto.user.UserResponseDTO
-import com.restaurante.api.model.User
 import com.restaurante.api.service.UserService
 import org.springframework.web.bind.annotation.*
 import java.util.*

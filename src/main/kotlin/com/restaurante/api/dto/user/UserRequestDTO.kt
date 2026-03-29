@@ -14,5 +14,7 @@ data class UserRequestDTO(
     val telefone: String,
 
     @field:NotBlank
-    val senha: String
+    val senha: String,
+
+    val role: String? = "CLIENTE"
 )

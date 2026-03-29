@@ -23,6 +23,10 @@ class SecurityConfig(
                         "/v3/api-docs/**",
                         "/auth/**"
                     ).permitAll()
+
+                    .requestMatchers("/users/**")
+                    .hasRole("ADMIN")
+
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter::class.java)

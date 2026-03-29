@@ -2,8 +2,9 @@ package com.restaurante.api.service
 
 import com.restaurante.api.dto.user.UserRequestDTO
 import com.restaurante.api.dto.user.UserResponseDTO
-import com.restaurante.api.model.User
+import com.restaurante.api.model.user.User
 import com.restaurante.api.repository.UserRepository
+import com.restaurante.api.model.user.UserRole
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -40,6 +41,12 @@ class UserService(
     val encoder = BCryptPasswordEncoder()
 
     fun salvar(dto: UserRequestDTO): UserResponseDTO{
+
+        val role = try {
+            UserRole.valueOf(dto.role ?: "CLIENTE")
+        } catch (e: Exception) {
+            UserRole.CLIENT
+        }
 
         val user = User(
             nome = dto.nome,

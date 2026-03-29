@@ -1,8 +1,13 @@
-package com.restaurante.api.model
+package com.restaurante.api.model.user
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Enumerated
+import jakarta.persistence.EnumType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "users")
@@ -27,5 +32,10 @@ data class User(
     var ativo: Boolean = true,
 
     @Column(name = "criado_em")
-    var criadoEm: LocalDateTime = LocalDateTime.now()
+    var criadoEm: LocalDateTime = LocalDateTime.now(),
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    var role: UserRole = UserRole.CLIENT
 )
+

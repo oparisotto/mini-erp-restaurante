@@ -25,7 +25,7 @@ class AuthService (
             throw RuntimeException("Email ou senha inválidos")
         }
 
-        val token = jwtService.gerarToken(user.email)
+        val token = jwtService.gerarToken(user.email, user.role.name)
 
         return LoginResponseDTO(token)
     }
