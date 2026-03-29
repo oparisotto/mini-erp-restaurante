@@ -1,22 +1,23 @@
 package com.restaurante.api.controller
 
+import com.restaurante.api.dto.pedido.PedidoRequestDTO
 import com.restaurante.api.model.Pedido
-import com.restaurante.api.service.pedidoService
+import com.restaurante.api.service.PedidoService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/pedidos")
 class PedidoController(
-    private val pedidoService: pedidoService
+    private val PedidoService: PedidoService
 ){
 
     @GetMapping
     fun listar(): List<Pedido>{
-        return pedidoService.listar()
+        return PedidoService.listar()
     }
 
     @PostMapping
-    fun salvar(@RequestBody pedido: Pedido): Pedido{
-        return pedidoService.salvar(pedido)
+    fun criar(@RequestBody dto: PedidoRequestDTO): Pedido{
+        return PedidoService.criar(dto)
     }
 }

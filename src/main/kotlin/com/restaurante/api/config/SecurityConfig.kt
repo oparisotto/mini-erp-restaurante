@@ -24,8 +24,16 @@ class SecurityConfig(
                         "/auth/**"
                     ).permitAll()
 
-                    .requestMatchers("/users/**")
-                    .hasRole("ADMIN")
+                    .requestMatchers("/users/**").hasRole("ADMIN")
+
+                    .requestMatchers(
+                        "/enderecos/**",
+                        "/pedidos/**",
+                        "/produtos/**",
+                        "/categorias/**",
+                        "/cupons/**",
+                        "/taxas-entrega/**"
+                    ).authenticated()
 
                     .anyRequest().authenticated()
             }
