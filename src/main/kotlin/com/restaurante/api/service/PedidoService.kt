@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDateTime
+import java.util.*
 
 @Service
 class PedidoService (
@@ -104,5 +105,35 @@ class PedidoService (
 
     fun listar(): List<Pedido> {
         return PedidoRepository.findAll()
+    }
+
+    fun atualizarStatus(id: UUID, novoStatus: String): Pedido {
+
+        val pedido = PedidoRepository.findById(id).orElseThrow {
+            RuntimeException("Pedido não encontrado")
+        }
+
+        val transicoesValidas = mapOf(
+            "criado"                    to listOf("aguardando_pagamento", "cancelado"),
+            "aguardando_pagamento"      to listOf("pago", "cancelado"),
+            "pago"                      to listOf("em_preparo", "cancelado"),
+            "em_ativo"                  to listOf("pronto", "cancelado"),
+            "pronto"                    to listOf("entregue"),
+            "entregue"                  to emptyList(),
+            "cancelado"                 to emptyList()
+        )
+
+        val permitidos = transicoesValidas[pedido.status]
+            ?: throw RuntimeException("Status atual inválido: ${pedido.status}")
+
+
+        if (novoStatus !in permitidos) {
+            throw RuntimeException(
+                "Transição inválida: ${pedido.status} -> $novoStatus. Permitidos: $permitidos"
+            )
+        }
+
+        pedido.status = novoStatus
+        return PedidoRepository.save(pedido)
     }
 }
