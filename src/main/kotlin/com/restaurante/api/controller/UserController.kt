@@ -4,6 +4,7 @@ import com.restaurante.api.dto.user.UserRequestDTO
 import com.restaurante.api.dto.user.UserResponseDTO
 import com.restaurante.api.service.UserService
 import org.springframework.web.bind.annotation.*
+import jakarta.validation.Valid
 import java.util.*
 
 @RestController
@@ -24,14 +25,14 @@ class UsersController(
     }
 
     @PostMapping
-    fun criar(@RequestBody dto: UserRequestDTO): UserResponseDTO {
+    fun criar(@Valid @RequestBody dto: UserRequestDTO): UserResponseDTO {
         return userService.salvar(dto)
     }
 
     @PutMapping("/{id}")
     fun atualizar(
         @PathVariable id: UUID,
-        @RequestBody dto: UserRequestDTO
+        @Valid @RequestBody dto: UserRequestDTO
     ): UserResponseDTO {
         return userService.atualizar(id, dto)
     }

@@ -4,6 +4,7 @@ import com.restaurante.api.dto.pedido.AtualizarStatusDTO
 import com.restaurante.api.dto.pedido.PedidoRequestDTO
 import com.restaurante.api.model.Pedido
 import com.restaurante.api.service.PedidoService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -19,14 +20,14 @@ class PedidoController(
     }
 
     @PostMapping
-    fun criar(@RequestBody dto: PedidoRequestDTO): Pedido{
+    fun criar(@Valid @RequestBody dto: PedidoRequestDTO): Pedido{
         return PedidoService.criar(dto)
     }
 
     @PutMapping("/{id}/status")
     fun atualizarSatus(
         @PathVariable id: UUID,
-        @RequestBody dto: AtualizarStatusDTO
+        @Valid @RequestBody dto: AtualizarStatusDTO
     ): Pedido{
         return PedidoService.atualizarStatus(id, dto.status)
     }
