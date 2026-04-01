@@ -7,6 +7,7 @@ import com.restaurante.api.model.Produto
 import com.restaurante.api.repository.*
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import org.slf4j.LoggerFactory
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
@@ -22,9 +23,13 @@ class PedidoService (
     private val TaxaEntregaRepository: TaxaEntregaRepository,
 ) {
 
+    private val logger = LoggerFactory.getLogger(PedidoService::class.java)
+
     fun criar(dto: PedidoRequestDTO): Pedido {
 
         val email = SecurityContextHolder.getContext().authentication.name
+        logger.info("Criado pedido para usuário: {}", email)
+
         val user = UserRepository.findByEmail(email)
             ?: throw RuntimeException("Usuário não encontrado")
 
@@ -41,6 +46,8 @@ class PedidoService (
 
             if (!produto.ativo) throw RuntimeException("Produto ${produto.nome} não está disponivel")
             if (itemDTO.quantidade <= 0) throw RuntimeException("Quantidade invalida para ${produto.nome}")
+
+            logger.info("Item adicionado: {} x{}", produto.nome, itemDTO.quantidade)
 
             PedidoItem(
                 produto = produto,
@@ -77,6 +84,8 @@ class PedidoService (
                 else -> BigDecimal.ZERO
             }
 
+            logger.info("Cupom {} aplicado, desconto: {}", cupom.codigo, desconto)
+
             cupom.usado += 1
             CupomRepository.save(cupom)
         }
@@ -100,14 +109,19 @@ class PedidoService (
             PedidoItemRepository.save(item)
         }
 
+        logger.info("Pedido {} criado com sucesso. Total: {}", pedido.id, total)
+
         return pedido
     }
 
     fun listar(): List<Pedido> {
+        logger.info("Listando todos os pedidos")
         return PedidoRepository.findAll()
     }
 
     fun atualizarStatus(id: UUID, novoStatus: String): Pedido {
+
+        logger.info("Atualizando status do pedido {} para {}", id, novoStatus)
 
         val pedido = PedidoRepository.findById(id).orElseThrow {
             RuntimeException("Pedido não encontrado")
@@ -128,12 +142,15 @@ class PedidoService (
 
 
         if (novoStatus !in permitidos) {
+            logger.warn("Transição inválida tentada: {} -> {}", pedido.status, novoStatus)
             throw RuntimeException(
                 "Transição inválida: ${pedido.status} -> $novoStatus. Permitidos: $permitidos"
             )
         }
 
         pedido.status = novoStatus
+        logger.info("Status do pedido {} atualizado para {}", id, novoStatus)
+
         return PedidoRepository.save(pedido)
     }
 }
