@@ -29,6 +29,10 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("com.mercadopago:sdk-java:2.1.9") {
+        exclude(group = "jakarta.annotation", module = "jakarta.annotation-api")
+        exclude(group = "org.sonatype.sisu", module = "sisu-guice")
+    }
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")

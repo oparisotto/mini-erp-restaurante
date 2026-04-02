@@ -1,7 +1,10 @@
 package com.restaurante.api.controller
 
+import com.restaurante.api.dto.pagamento.PagamentoRequestDTO
+import com.restaurante.api.dto.pagamento.PagamentoResponseDTO
 import com.restaurante.api.model.Pagamento
 import com.restaurante.api.service.PagamentoService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,8 +18,8 @@ class PagamentoController(
     }
 
     @PostMapping
-    fun criar(@RequestBody pagamento: Pagamento): Pagamento{
-        return pagamentoService.salvar(pagamento)
+    fun criar(@Valid @RequestBody dto: PagamentoRequestDTO): PagamentoResponseDTO {
+        return pagamentoService.criar(dto)
     }
 }
 
