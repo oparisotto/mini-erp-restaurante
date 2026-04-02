@@ -21,7 +21,8 @@ class SecurityConfig(
                     .requestMatchers(
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
-                        "/auth/**"
+                        "/auth/**",
+                        "/webhooks/**"
                     ).permitAll()
 
                     .requestMatchers("/users/**").hasRole("ADMIN")
