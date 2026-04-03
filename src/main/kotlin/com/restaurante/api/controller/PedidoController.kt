@@ -4,8 +4,12 @@ import com.restaurante.api.dto.pedido.AtualizarStatusDTO
 import com.restaurante.api.dto.pedido.PedidoRequestDTO
 import com.restaurante.api.model.Pedido
 import com.restaurante.api.service.PedidoService
+
 import jakarta.validation.Valid
+
+import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.*
+
 import java.util.*
 
 @RestController
@@ -15,8 +19,13 @@ class PedidoController(
 ){
 
     @GetMapping
-    fun listar(): List<Pedido>{
-        return PedidoService.listar()
+    fun listar(
+        @RequestParam(required = false) status: String?,
+        @RequestParam(required = false) email: String?,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") size: Int
+    ): Page<Pedido>{
+        return PedidoService.listar(status, email, page, size)
     }
 
     @PostMapping

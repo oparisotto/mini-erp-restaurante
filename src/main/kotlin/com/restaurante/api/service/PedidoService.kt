@@ -5,9 +5,16 @@ import com.restaurante.api.model.Pedido
 import com.restaurante.api.model.PedidoItem
 import com.restaurante.api.model.Produto
 import com.restaurante.api.repository.*
+
+import jakarta.validation.constraints.Email
+
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.slf4j.LoggerFactory
+
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
@@ -114,9 +121,10 @@ class PedidoService (
         return pedido
     }
 
-    fun listar(): List<Pedido> {
-        logger.info("Listando todos os pedidos")
-        return PedidoRepository.findAll()
+    fun listar(status: String?, email: String?, page: Int, size: Int): Page<Pedido> {
+        val pageable = PageRequest.of(page, size, Sort.by("criadoEm").descending())
+        logger.info("Listando pedidos - status: {}, email: {}, page: {}, size: {}", status, email, page, size)
+        return PedidoRepository.buscarComFiltros(status, email, pageable)
     }
 
     fun atualizarStatus(id: UUID, novoStatus: String): Pedido {
