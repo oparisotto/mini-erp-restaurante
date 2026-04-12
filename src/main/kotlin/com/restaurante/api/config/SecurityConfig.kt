@@ -32,6 +32,7 @@ class SecurityConfig(
                     .requestMatchers("taxas_entrega/**").hasRole("ADMIN")
                     .requestMatchers("PUT", "/pedidos/*/status").hasRole("ADMIN")
                     .requestMatchers("GET", "/pedidos").hasRole("ADMIN")
+                    .requestMatchers("/dashboard/**").hasRole("ADMIN")
 
                     // CLIENTE e ADMIN
                     .requestMatchers("/produtos/**").authenticated()
