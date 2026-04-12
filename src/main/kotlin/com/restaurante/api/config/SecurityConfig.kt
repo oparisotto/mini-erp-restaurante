@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 class SecurityConfig(
@@ -18,6 +17,8 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeHttpRequests {
                 it
+
+                    // Rotas públicas
                     .requestMatchers(
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
@@ -25,16 +26,19 @@ class SecurityConfig(
                         "/webhooks/**"
                     ).permitAll()
 
+                    // Somente ADMIN
                     .requestMatchers("/users/**").hasRole("ADMIN")
+                    .requestMatchers("/cupons/**").hasRole("ADMIN")
+                    .requestMatchers("taxas_entrega/**").hasRole("ADMIN")
+                    .requestMatchers("PUT", "/pedidos/*/status").hasRole("ADMIN")
+                    .requestMatchers("GET", "/pedidos").hasRole("ADMIN")
 
-                    .requestMatchers(
-                        "/enderecos/**",
-                        "/pedidos/**",
-                        "/produtos/**",
-                        "/categorias/**",
-                        "/cupons/**",
-                        "/taxas-entrega/**"
-                    ).authenticated()
+                    // CLIENTE e ADMIN
+                    .requestMatchers("/produtos/**").authenticated()
+                    .requestMatchers("/categorias/**").authenticated()
+                    .requestMatchers("/enderecos/**").authenticated()
+                    .requestMatchers("/pagamentos/**").authenticated()
+                    .requestMatchers("POST", "/pedidos").authenticated()
 
                     .anyRequest().authenticated()
             }
