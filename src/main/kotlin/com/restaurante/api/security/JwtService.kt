@@ -3,6 +3,7 @@ package com.restaurante.api.security
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.crypto.SecretKey
@@ -10,7 +11,12 @@ import javax.crypto.SecretKey
 @Service
 class JwtService {
 
-    private val key: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)
+    @Value("\${jwt.secret}")
+    private lateinit var secret: String
+
+    private val key: SecretKey by lazy {
+        Keys.hmacShaKeyFor(secret.toByteArray())
+    }
 
     fun gerarToken(email: String, role: String): String {
         return Jwts.builder()
